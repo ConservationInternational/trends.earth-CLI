@@ -55,7 +55,7 @@ class Commands(object):
         try:
             print('Logging the user in')
             if login.run():
-                print(colored('You are logged', 'green'))
+                print(colored('You are logged in', 'green'))
             else:
                 print(colored('Error with the user', 'red'))
         except Exception as error:

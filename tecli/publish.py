@@ -39,7 +39,7 @@ def read_configuration():
 def write_configuration(data):
     """Write configuration file"""
     to_dir = os.getcwd()
-    logging.debug('Writting configuration file in path: %s' % (to_dir))
+    logging.debug('Writing configuration file in path: %s' % (to_dir))
     with open(os.path.join(to_dir, 'configuration.json'), 'w') as config_file:
         json.dump(data, config_file)
 
@@ -87,7 +87,7 @@ def publish(public=False, overwrite=False):
         if response.status_code != 200:
             logging.error(response.json())
             if response.status_code == 401:
-                print(colored('Do you need login', 'red'))
+                print(colored('Do you need to login?', 'red'))
             else:
                 print(colored('Error publishing script.', 'red'))
             return False
@@ -99,7 +99,7 @@ def publish(public=False, overwrite=False):
             response = requests.post(url=SETTINGS.get('url_api')+'/api/v1/script/' + configuration['id'] + '/publish', headers={'Authorization': 'Bearer ' + token})
             if response.status_code != 200:
                 logging.error(response.json())
-                print(colored('Error making the script public', 'red'))
+                print(colored('Error making the script public.', 'red'))
                 return False
         return True
     except (OSError, IOError) as e:
