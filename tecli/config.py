@@ -12,7 +12,7 @@ gef_config_dir = os.path.expanduser('~') + '/.gef.yml'
 
 def set(var_name, value):
     with open(gef_config_dir, 'r+') as infile:
-        data = yaml.load(infile)
+        data = yaml.load(infile, Loader=yaml.FullLoader)
         with open(gef_config_dir, 'w+') as outfile:
             if data is None:
                 data = {}
@@ -22,14 +22,14 @@ def set(var_name, value):
 
 def show(var_name, value):
     with open(gef_config_dir, 'r+') as outfile:
-        data = yaml.load(outfile)
+        data = yaml.load(outfile, Loader=yaml.FullLoader)
         if data is not None:
             print('Value: ' + str(data[var_name]))
     return True
 
 def get(var_name):
     with open(gef_config_dir, 'r+') as outfile:
-        data = yaml.load(outfile)
+        data = yaml.load(outfile, Loader=yaml.FullLoader)
         if data is not None and var_name in data:
             return data[var_name]
         return ''
@@ -37,7 +37,7 @@ def get(var_name):
 
 def unset(var_name, value):
     with open(gef_config_dir, 'r+') as infile:
-        data = yaml.load(infile)
+        data = yaml.load(infile, Loader=yaml.FullLoader)
         with open(gef_config_dir, 'w+') as outfile:
             if data is not None:
                 data.pop(var_name, None)

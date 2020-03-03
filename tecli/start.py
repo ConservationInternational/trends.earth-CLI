@@ -24,10 +24,6 @@ def query_to_dict(query):
         query_data[key] = value
     return query_data
 
-def read_gee_token():
-    """Obtain jwt token of config user"""
-    return config.get('EE_PRIVATE_KEY')
-
 def read_gee_service_account():
     """Obtain jwt token of config user"""
     return config.get('EE_SERVICE_ACCOUNT')
@@ -45,9 +41,8 @@ def build_docker(tempdir, dockerid):
 def run_docker(tempdir, dockerid, param):
     """Run docker"""
     try:
-        gee = read_gee_token()
         service_account = read_gee_service_account()
-        subprocess.run("docker run -e ENV=dev -e EE_PRIVATE_KEY={2} -e EE_SERVICE_ACCOUNT={3} --rm {0} {1}".format(dockerid, param, gee, service_account), shell=True, check=True, cwd=tempdir)
+        subprocess.run("docker run -e ENV=dev -e EE_SERVICE_ACCOUNT={2} --rm {0} {1}".format(dockerid, param, service_account), shell=True, check=True, cwd=tempdir)
         return True
     except subprocess.CalledProcessError as error:
         logging.error(error)

@@ -1,4 +1,4 @@
-FROM vizzuality/gef-environment:0.0.7
+FROM conservationinternational/trends.earth-environment
 
 COPY requirements.txt /project/requirements.txt
 RUN pip install -r /project/requirements.txt
