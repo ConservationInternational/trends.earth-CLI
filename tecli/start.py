@@ -26,7 +26,7 @@ def query_to_dict(query):
 
 def read_gee_service_account():
     """Obtain jwt token of config user"""
-    return config.get('EE_SERVICE_ACCOUNT')
+    return config.get('EE_SERVICE_ACCOUNT_JSON')
 
 def build_docker(tempdir, dockerid):
     """Build docker"""
@@ -42,7 +42,7 @@ def run_docker(tempdir, dockerid, param):
     """Run docker"""
     try:
         service_account = read_gee_service_account()
-        subprocess.run("docker run -e ENV=dev -e EE_SERVICE_ACCOUNT={2} --rm {0} {1}".format(dockerid, param, service_account), shell=True, check=True, cwd=tempdir)
+        subprocess.run("docker run -e ENV=dev -e EE_SERVICE_ACCOUNT_JSON={2} --rm {0} {1}".format(dockerid, param, service_account), shell=True, check=True, cwd=tempdir)
         return True
     except subprocess.CalledProcessError as error:
         logging.error(error)

@@ -1,4 +1,4 @@
-FROM conservationinternational/trends.earth-environment
+FROM conservationinternational/trends.earth-environment:0.1.0
 
 COPY requirements.txt /project/requirements.txt
 RUN pip install -r /project/requirements.txt
