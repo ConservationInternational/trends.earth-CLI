@@ -6,8 +6,6 @@ from __future__ import print_function
 
 from termcolor import colored
 
-from tecli.configuration import SETTINGS
-
 from tecli import config
 
 import tarfile
@@ -80,9 +78,9 @@ def publish(public=False, overwrite=False):
             if not sure:
                 return False
 
-            response = requests.patch(url=SETTINGS.get('url_api')+'/api/v1/script/' + configuration['id'], files={'file': open(tarfile, 'rb')}, headers={'Authorization': 'Bearer ' + token})
+            response = requests.patch(url=config.get('url_api')+'/api/v1/script/' + configuration['id'], files={'file': open(tarfile, 'rb')}, headers={'Authorization': 'Bearer ' + token})
         else:
-            response = requests.post(url=SETTINGS.get('url_api')+'/api/v1/script', files={'file': open(tarfile, 'rb')}, headers={'Authorization': 'Bearer ' + token})
+            response = requests.post(url=config.get('url_api')+'/api/v1/script', files={'file': open(tarfile, 'rb')}, headers={'Authorization': 'Bearer ' + token})
 
         if response.status_code != 200:
             logging.error(response.json())
@@ -96,7 +94,7 @@ def publish(public=False, overwrite=False):
         configuration['id'] = data['data']['id']
         write_configuration(configuration)
         if public:
-            response = requests.post(url=SETTINGS.get('url_api')+'/api/v1/script/' + configuration['id'] + '/publish', headers={'Authorization': 'Bearer ' + token})
+            response = requests.post(url=config.get('url_api')+'/api/v1/script/' + configuration['id'] + '/publish', headers={'Authorization': 'Bearer ' + token})
             if response.status_code != 200:
                 logging.error(response.json())
                 print(colored('Error making the script public.', 'red'))

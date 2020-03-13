@@ -5,7 +5,6 @@ from __future__ import division
 from __future__ import print_function
 
 from getpass import getpass
-from tecli.configuration import SETTINGS
 
 from tecli import config
 
@@ -35,7 +34,7 @@ def run():
         password = getpass(prompt='Please enter your password:')
 
 
-    response = requests.post(url=SETTINGS.get('url_api')+'/auth', json={'email': email, 'password': password})
+    response = requests.post(url=config.get('url_api')+'/auth', json={'email': email, 'password': password})
 
     if response.status_code != 200:
         print('Error login.')

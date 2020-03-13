@@ -16,7 +16,6 @@ import requests
 import time
 
 
-from tecli.configuration import SETTINGS
 from tecli import config
 
 def read_jwt_token():
@@ -39,7 +38,7 @@ def get_logs(script, last_date):
     if last_date:
         start_query = '?start=' +  last_date.isoformat()
 
-    response = requests.get(url=SETTINGS.get('url_api') + '/api/v1/script/' + script['id'] + '/log' + start_query,
+    response = requests.get(url=config.get('url_api') + '/api/v1/script/' + script['id'] + '/log' + start_query,
                             headers={'Authorization': 'Bearer ' + token})
     if response.status_code != 200:
         if response.status_code == 401:
@@ -80,7 +79,7 @@ def run():
 
         else:
             token = read_jwt_token()
-            response = requests.get(url=SETTINGS.get('url_api') + '/api/v1/script/' + configuration['id'], headers={'Authorization': 'Bearer ' + token})
+            response = requests.get(url=config.get('url_api') + '/api/v1/script/' + configuration['id'], headers={'Authorization': 'Bearer ' + token})
             if response.status_code != 200:
                 if response.status_code == 401:
                     print(colored('Do you need login', 'red'))

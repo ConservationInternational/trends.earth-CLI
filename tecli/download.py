@@ -10,7 +10,6 @@ import tarfile
 import requests
 from termcolor import colored
 
-from tecli.configuration import SETTINGS
 from tecli import config
 
 
@@ -25,7 +24,7 @@ def run(script_id=None):
         return False
     try:
         token = read_jwt_token()
-        response = requests.get(url=SETTINGS.get('url_api') + '/api/v1/script/' + script_id + '/download', headers={'Authorization': 'Bearer ' + token}, stream=True)
+        response = requests.get(url=config.get('url_api') + '/api/v1/script/' + script_id + '/download', headers={'Authorization': 'Bearer ' + token}, stream=True)
         if response.status_code != 200:
             if response.status_code == 401:
                 print(colored('Do you need login', 'red'))

@@ -8,40 +8,45 @@ import os
 import yaml
 import logging
 
-gef_config_dir = os.path.expanduser('~') + '/.gef.yml'
+config_path = os.path.expanduser('~') + '/.tecli.yml'
+
+# Default values that can be altered in local .tecli.yml file
+config = {
+    'url_api': 'https://api.trends.earth'
+}
 
 def set(var_name, value):
-    with open(gef_config_dir, 'r+') as infile:
-        data = yaml.load(infile, Loader=yaml.FullLoader)
-        with open(gef_config_dir, 'w+') as outfile:
-            if data is None:
-                data = {}
-            data[var_name] = value
-            yaml.dump(data, outfile, default_flow_style=False)
+    with open(config_path, 'r+') as infile:
+        config.update(yaml.load(infile, Loader=yaml.FullLoader))
+        with open(config_path, 'w+') as outfile:
+            if config is None:
+                config = {}
+            config[var_name] = value
+            yaml.dump(config, outfile, default_flow_style=False)
     return True
 
 def show(var_name, value):
-    with open(gef_config_dir, 'r+') as outfile:
-        data = yaml.load(outfile, Loader=yaml.FullLoader)
-        if data is not None:
-            print('Value: ' + str(data[var_name]))
+    with open(config_path, 'r+') as infile:
+        config.update(yaml.load(infile, Loader=yaml.FullLoader))
+        if config is not None:
+            print('Value: ' + str(config[var_name]))
     return True
 
 def get(var_name):
-    with open(gef_config_dir, 'r+') as outfile:
-        data = yaml.load(outfile, Loader=yaml.FullLoader)
-        if data is not None and var_name in data:
-            return data[var_name]
+    with open(config_path, 'r+') as infile:
+        config.update(yaml.load(infile, Loader=yaml.FullLoader))
+        if config is not None and var_name in config:
+            return config[var_name]
         return ''
     return True
 
 def unset(var_name, value):
-    with open(gef_config_dir, 'r+') as infile:
-        data = yaml.load(infile, Loader=yaml.FullLoader)
-        with open(gef_config_dir, 'w+') as outfile:
-            if data is not None:
-                data.pop(var_name, None)
-                yaml.dump(data, outfile, default_flow_style=False)
+    with open(config_path, 'r+') as infile:
+        config.update(yaml.load(infile, Loader=yaml.FullLoader))
+        with open(config_path, 'w+') as outfile:
+            if config is not None:
+                config.pop(var_name, None)
+                yaml.dump(config, outfile, default_flow_style=False)
     return True
 
 ACTIONS = {
