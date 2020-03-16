@@ -6,7 +6,7 @@ setup(name='trends-earth-cli',
       author='Sergio Gordillo, Raul Requero',
       author_email='sergio.gordillo@vizzuality.com,raul.requero@vizzuality.com',
       license='MIT',
-      packages=['tecli', 'tecli.configuration'],
+      packages=['tecli'],
       package_data={'': ['run/Dockerfile', 'skeleton/requirements.txt', 'skeleton/src/__init__.py', 'skeleton/src/main.py']},
       install_requires=[
           'fire==0.1.0',
