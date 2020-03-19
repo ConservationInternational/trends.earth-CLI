@@ -25,12 +25,12 @@ def is_valid_password(password):
 def run():
     """Login command"""
 
-    email = None
-    while email is None or not is_valid_email(email):
+    email = config.get('email')
+    while email is '' or not is_valid_email(email):
         email = input("Please enter your email: ")
 
-    password = None
-    while email is None or not is_valid_password(password):
+    password = config.get('password')
+    while password is None or not is_valid_password(password):
         password = getpass(prompt='Please enter your password:')
 
 
