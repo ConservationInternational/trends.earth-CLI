@@ -48,7 +48,7 @@ def read_jwt_token():
 def sure_overwrite():
     sure = None
 
-    while sure is None or not bool(sure) or not sure.lower() in ['y', 'n']:
+    while sure is None or not bool(sure) or sure.lower() not in ['y', 'n']:
         sure = input("With this action you will overwrite this script. Are you sure? (Y/n): ")
         if sure == '':
             sure = 'y'
@@ -100,7 +100,7 @@ def publish(public=False, overwrite=False):
                 print(colored('Error making the script public.', 'red'))
                 return False
         return True
-    except (OSError, IOError) as e:
+    except (OSError, IOError):
         print(colored('Execute this command in a GEF project', 'red'))
         return False
     finally:

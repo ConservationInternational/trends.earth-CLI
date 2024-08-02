@@ -26,7 +26,7 @@ def run():
     """Login command"""
 
     email = config.get('email')
-    while email is '' or not is_valid_email(email):
+    while email == '' or not is_valid_email(email):
         email = input("Please enter your email: ")
 
     password = config.get('password')
