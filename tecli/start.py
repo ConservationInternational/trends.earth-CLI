@@ -1,37 +1,52 @@
 """Create command"""
 
-from __future__ import absolute_import
-from __future__ import division
-from __future__ import print_function
+from __future__ import absolute_import, division, print_function
 
-import tempfile
-import os
-import json
-import subprocess
-import time
-import logging
 import base64
+import json
+import logging
+import os
+import subprocess
+import tempfile
+import time
+from shutil import copyfile, copytree
 
 from tecli import config
-from shutil import copytree, copyfile
+
+from .info import read_configuration
 
 
 def query_to_dict(query):
-    params = query.split('&')
+    params = query.split("&")
     query_data = {}
     for param in params:
-        key, value = param.split('=')
+        key, value = param.split("=")
         query_data[key] = value
     return query_data
 
+
 def read_gee_service_account():
     """Obtain jwt token of config user"""
-    return config.get('EE_SERVICE_ACCOUNT_JSON')
+    return config.get("EE_SERVICE_ACCOUNT_JSON")
+
 
 def build_docker(tempdir, dockerid):
     """Build docker"""
     try:
-        subprocess.run("docker build -t {0} .".format(dockerid), shell=True, check=True, cwd=tempdir)
+        config = read_configuration()
+        environment = config.get("environment", "trends.earth-environment")
+        environment_version = config.get("environment_version", "0.1.6")
+        logging.debug(
+            "Building with environment %s:%s..." % (environment, environment_version)
+        )
+        subprocess.run(
+            'docker build --build-arg="ENVIRONMENT={0}" --build-arg="ENVIRONMENT_VERSION={1}" -t {2} .'.format(
+                environment, environment_version, dockerid
+            ),
+            shell=True,
+            check=True,
+            cwd=tempdir,
+        )
         return True
     except subprocess.CalledProcessError as error:
         logging.error(error)
@@ -42,8 +57,15 @@ def run_docker(tempdir, dockerid, param):
     """Run docker"""
     try:
         service_account = read_gee_service_account()
-        rollbar_token = config.get('ROLLBAR_SCRIPT_TOKEN')
-        subprocess.run("docker run -e ENV=dev -e EE_SERVICE_ACCOUNT_JSON={2} -e ROLLBAR_SCRIPT_TOKEN={3} --rm {0} {1}".format(dockerid, param, service_account, rollbar_token), shell=True, check=True, cwd=tempdir)
+        rollbar_token = config.get("ROLLBAR_SCRIPT_TOKEN")
+        subprocess.run(
+            "docker run -e ENV=dev -e EE_SERVICE_ACCOUNT_JSON={2} -e ROLLBAR_SCRIPT_TOKEN={3} --rm {0} {1}".format(
+                dockerid, param, service_account, rollbar_token
+            ),
+            shell=True,
+            check=True,
+            cwd=tempdir,
+        )
         return True
     except subprocess.CalledProcessError as error:
         logging.error(error)
@@ -52,14 +74,14 @@ def run_docker(tempdir, dockerid, param):
 
 def run(param, payload):
     """Start command"""
-    logging.debug('Creating temporary file...')
+    logging.debug("Creating temporary file...")
     # Current folder
     cwd = os.getcwd()
     # Getting Dockerfile from /run folder
-    dockerfile = os.path.dirname(os.path.realpath(__file__)) + '/run/Dockerfile'
+    dockerfile = os.path.dirname(os.path.realpath(__file__)) + "/run/Dockerfile"
 
     payload_data = {}
-    if payload and payload != '':
+    if payload and payload != "":
         try:
             with open(payload) as data_file:
                 payload_data = dict(json.load(data_file))
@@ -68,25 +90,25 @@ def run(param, payload):
             return False
 
     with tempfile.TemporaryDirectory() as tmpdirname:
-        logging.debug('Copying Dockerfile ...')
-        copyfile(dockerfile, tmpdirname + '/Dockerfile')
+        logging.debug("Copying Dockerfile ...")
+        copyfile(dockerfile, tmpdirname + "/Dockerfile")
 
-        logging.debug('Copying src folder ...')
-        copytree(cwd + '/src', tmpdirname + '/src')
+        logging.debug("Copying src folder ...")
+        copytree(cwd + "/src", tmpdirname + "/src")
 
-        logging.debug('Copying requirements ...')
-        copyfile(cwd + '/requirements.txt', tmpdirname + '/requirements.txt')
+        logging.debug("Copying requirements ...")
+        copyfile(cwd + "/requirements.txt", tmpdirname + "/requirements.txt")
 
-        logging.debug('Building ...')
-        dockerid = 'gef-local-'+str(time.time())
+        logging.debug("Building ...")
+        dockerid = "gef-local-" + str(time.time())
         success = False
         if build_docker(tmpdirname, dockerid):
-            logging.debug('Reading and serializing parameters ....')
-            param_dict = query_to_dict(param) if param != '' else {}
+            logging.debug("Reading and serializing parameters ....")
+            param_dict = query_to_dict(param) if param != "" else {}
             param_dict.update(payload_data)
-            param_serial = json.dumps(param_dict).encode('utf-8')
+            param_serial = json.dumps(param_dict).encode("utf-8")
             param_serial = base64.b64encode(param_serial)
-            logging.debug('Running script....')
+            logging.debug("Running script....")
             success = run_docker(tmpdirname, dockerid, param_serial)
 
         return success
