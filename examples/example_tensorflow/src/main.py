@@ -1,12 +1,9 @@
 """Custom Script"""
 
-from __future__ import absolute_import
-from __future__ import division
-from __future__ import print_function
-
-from tensorflow.examples.tutorials.mnist import input_data
+from __future__ import absolute_import, division, print_function
 
 import tensorflow as tf
+from tensorflow.examples.tutorials.mnist import input_data
 
 
 def model(x):
@@ -18,7 +15,7 @@ def model(x):
 
 def run(params, logger):
     # Import data
-    mnist = input_data.read_data_sets('/tmp/tensorflow/mnist/input_data', one_hot=True)
+    mnist = input_data.read_data_sets("/tmp/tensorflow/mnist/input_data", one_hot=True)
     learning_rate = 0.5
 
     # Create the model
@@ -27,8 +24,9 @@ def run(params, logger):
     y_ = tf.placeholder(tf.float32, [None, 10])
 
     cross_entropy = tf.nn.softmax_cross_entropy_with_logits(labels=y_, logits=y)
-    loss = tf.reduce_mean(cross_entropy)
-    train_step = tf.train.GradientDescentOptimizer(learning_rate).minimize(cross_entropy)
+    train_step = tf.train.GradientDescentOptimizer(learning_rate).minimize(
+        cross_entropy
+    )
 
     sess = tf.InteractiveSession()
     tf.global_variables_initializer().run()
@@ -41,6 +39,5 @@ def run(params, logger):
     # Test trained model
     correct_prediction = tf.equal(tf.argmax(y, 1), tf.argmax(y_, 1))
     accuracy = tf.reduce_mean(tf.cast(correct_prediction, tf.float32))
-    print(sess.run(accuracy, feed_dict={x: mnist.test.images,
-                                      y_: mnist.test.labels}))
+    print(sess.run(accuracy, feed_dict={x: mnist.test.images, y_: mnist.test.labels}))
     return "Done"

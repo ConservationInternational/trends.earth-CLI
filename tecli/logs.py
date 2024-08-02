@@ -1,17 +1,12 @@
 """Logs command"""
 
-from __future__ import absolute_import
-
-from __future__ import division
-
-from __future__ import print_function
+from __future__ import absolute_import, division, print_function
 
 import json
 import logging
 import os
 import time
-from datetime import datetime
-from datetime import timedelta
+from datetime import datetime, timedelta
 
 import dateutil.parser
 import pytz
@@ -66,7 +61,7 @@ def show_logs(script, since):
     printed = False
     for log in script["logs"]:
         last_date = dateutil.parser.parse(log["register_date"]).replace(tzinfo=pytz.utc)
-        if log["text"] != None and (last_date > (now - since)):
+        if log["text"] is not None and (last_date > (now - since)):
             print(log["register_date"] + ": " + log["text"])
             printed = True
 
@@ -77,12 +72,12 @@ def show_logs(script, since):
 
     if script["status"] != "FAIL" and script["status"] != "SUCCESS":
         next = True
-        while next == True:
+        while next:
             next, logs = get_logs(script, last_date)
             if logs:
                 for log in logs:
                     last_date = dateutil.parser.parse(log["register_date"])
-                    if log["text"] != None:
+                    if log["text"] is not None:
                         print(log["register_date"] + ": " + log["text"])
 
             time.sleep(2)
