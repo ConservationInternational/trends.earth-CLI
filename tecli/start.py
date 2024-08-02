@@ -81,12 +81,12 @@ def run(param, payload):
         dockerid = 'gef-local-'+str(time.time())
         success = False
         if build_docker(tmpdirname, dockerid):
-            logging.debug('Running script ....')
-            logging.info(param)
+            logging.debug('Reading and serializing parameters ....')
             param_dict = query_to_dict(param) if param != '' else {}
             param_dict.update(payload_data)
             param_serial = json.dumps(param_dict).encode('utf-8')
             param_serial = base64.b64encode(param_serial)
+            logging.debug('Running script....')
             success = run_docker(tmpdirname, dockerid, param_serial)
 
         return success

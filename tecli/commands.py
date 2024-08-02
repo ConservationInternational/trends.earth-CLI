@@ -4,6 +4,7 @@ from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
 
+from datetime import timedelta
 from termcolor import colored
 
 import logging
@@ -110,11 +111,11 @@ class Commands(object):
             logging.error(error)
 
     @staticmethod
-    def logs(all=False):
+    def logs(since=timedelta(hours=1)):
         """Get logs of script"""
         try:
             print('Getting logs of script build')
-            if logs.run():
+            if logs.run(since):
                 pass
             else:
                 print(colored('Error getting logs', 'red'))
