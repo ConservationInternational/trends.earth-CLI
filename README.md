@@ -1,4 +1,4 @@
-# trends.earth CLI ![trends.earth-CLI Status](https://travis-ci.org/Vizzuality/trends.earth-CLI.svg?branch=master "trends.earth-CLI Status")
+# trends.earth CLI
 
 This project belongs to the trends.earth Project.
 
