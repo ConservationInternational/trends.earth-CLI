@@ -1,0 +1,93 @@
+# trends.earth CLI Configuration File Example
+# Copy this file to ~/.tecli.yml and modify as needed
+#
+# Usage:
+#   cp .tecli.yml.example ~/.tecli.yml
+#   trends config set <variable> <value>
+
+# =============================================================================
+# API Configuration
+# =============================================================================
+
+# trends.earth API endpoint
+url_api: "https://api.trends.earth"
+
+# =============================================================================
+# Authentication
+# =============================================================================
+
+# JWT token (set automatically via 'trends login' command)
+# JWT: "your-jwt-token-here"
+
+# User credentials (optional - will be prompted if not provided)
+# email: "your-email@example.com"
+# password: "your-password"  # Leave empty to be prompted securely
+
+# =============================================================================
+# Google Earth Engine Configuration
+# =============================================================================
+
+# GEE Service Account Email
+# EE_SERVICE_ACCOUNT: "your-service-account@your-project.iam.gserviceaccount.com"
+
+# GEE Private Key (base64-encoded)
+# To encode your private key:
+#   cat your-private-key.pem | base64 -w 0
+# EE_PRIVATE_KEY: "LS0tLS1CRUdJTi..."
+
+# Alternative: Complete Service Account JSON (base64-encoded)
+# To encode your service account JSON:
+#   cat service-account-key.json | base64 -w 0
+# EE_SERVICE_ACCOUNT_JSON: "ewogICJ0eXBlIjog..."
+
+# =============================================================================
+# Development & Environment Settings
+# =============================================================================
+
+# Docker environment for script execution
+environment: "trends.earth-environment"
+
+# Environment version tag
+environment_version: "0.1.6"
+
+# =============================================================================
+# Error Tracking & Monitoring
+# =============================================================================
+
+# Rollbar token for error tracking (optional)
+# ROLLBAR_SCRIPT_TOKEN: "your-rollbar-token"
+
+# =============================================================================
+# Advanced Settings
+# =============================================================================
+
+# Custom Docker registry (if using private images)
+# docker_registry: "your-private-registry.com"
+
+# Script execution timeout (seconds)
+# script_timeout: 3600
+
+# Maximum log retention (days)
+# log_retention_days: 30
+
+# =============================================================================
+# Notes
+# =============================================================================
+#
+# 1. Configuration Precedence:
+#    Environment Variables > ~/.tecli.yml > Default Values
+#
+# 2. Environment Variable Naming:
+#    Prefix with 'TECLI_' and uppercase. Example:
+#    url_api -> TECLI_URL_API
+#    EE_SERVICE_ACCOUNT -> TECLI_EE_SERVICE_ACCOUNT
+#
+# 3. Security:
+#    - Never commit this file with real credentials
+#    - Use environment variables in CI/CD pipelines
+#    - Rotate keys regularly
+#
+# 4. Common Commands:
+#    trends config set EE_SERVICE_ACCOUNT "account@project.iam.gserviceaccount.com"
+#    trends config show url_api
+#    trends config unset EE_PRIVATE_KEY

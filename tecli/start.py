@@ -1,7 +1,5 @@
 """Create command"""
 
-from __future__ import absolute_import, division, print_function
-
 import base64
 import json
 import logging
@@ -36,13 +34,9 @@ def build_docker(tempdir, dockerid):
         config = read_configuration()
         environment = config.get("environment", "trends.earth-environment")
         environment_version = config.get("environment_version", "0.1.6")
-        logging.debug(
-            "Building with environment %s:%s..." % (environment, environment_version)
-        )
+        logging.debug(f"Building with environment {environment}:{environment_version}...")
         subprocess.run(
-            'docker build --build-arg="ENVIRONMENT={0}" --build-arg="ENVIRONMENT_VERSION={1}" -t {2} .'.format(
-                environment, environment_version, dockerid
-            ),
+            f'docker build --build-arg="ENVIRONMENT={environment}" --build-arg="ENVIRONMENT_VERSION={environment_version}" -t {dockerid} .',
             shell=True,
             check=True,
             cwd=tempdir,
@@ -59,9 +53,7 @@ def run_docker(tempdir, dockerid, param):
         service_account = read_gee_service_account()
         rollbar_token = config.get("ROLLBAR_SCRIPT_TOKEN")
         subprocess.run(
-            "docker run -e ENV=dev -e EE_SERVICE_ACCOUNT_JSON={2} -e ROLLBAR_SCRIPT_TOKEN={3} --rm {0} {1}".format(
-                dockerid, param, service_account, rollbar_token
-            ),
+            f"docker run -e ENV=dev -e EE_SERVICE_ACCOUNT_JSON={service_account} -e ROLLBAR_SCRIPT_TOKEN={rollbar_token} --rm {dockerid} {param}",
             shell=True,
             check=True,
             cwd=tempdir,

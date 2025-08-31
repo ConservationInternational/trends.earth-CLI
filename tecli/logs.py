@@ -1,7 +1,5 @@
 """Logs command"""
 
-from __future__ import absolute_import, division, print_function
-
 import json
 import logging
 import os
@@ -24,8 +22,8 @@ def read_jwt_token():
 def read_configuration():
     """Read configuration file of project"""
     to_dir = os.getcwd()
-    logging.debug("Reading configuration file in path: %s" % (to_dir))
-    with open(os.path.join(to_dir, "configuration.json"), "r") as json_data:
+    logging.debug(f"Reading configuration file in path: {to_dir}")
+    with open(os.path.join(to_dir, "configuration.json")) as json_data:
         d = json.load(json_data)
         return d
 
@@ -38,11 +36,7 @@ def get_logs(script, last_date):
     if last_date:
         start_query = "?start=" + last_date.isoformat()
     response = requests.get(
-        url=config.get("url_api")
-        + "/api/v1/script/"
-        + script["id"]
-        + "/log"
-        + start_query,
+        url=config.get("url_api") + "/api/v1/script/" + script["id"] + "/log" + start_query,
         headers={"Authorization": "Bearer " + token},
     )
     if response.status_code != 200:
@@ -94,8 +88,7 @@ def run(since=timedelta(hours=1)):
         else:
             token = read_jwt_token()
             response = requests.get(
-                url=config.get("url_api")
-                + f"/api/v1/script/{configuration['id']}?include=logs",
+                url=config.get("url_api") + f"/api/v1/script/{configuration['id']}?include=logs",
                 headers={"Authorization": "Bearer " + token},
             )
             if response.status_code != 200:

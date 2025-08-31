@@ -1,0 +1,145 @@
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry]
+name = "trends-earth-cli"
+version = "1.0.3"
+description = "Official command-line interface for the trends.earth platform, enabling local development, testing, and deployment of custom geospatial analysis scripts."
+authors = [
+    "Sergio Gordillo <sergio.gordillo@vizzuality.com>",
+    "Raul Requero <raul.requero@vizzuality.com>"
+]
+maintainers = [
+    "Conservation International <trends.earth@conservation.org>"
+]
+license = "MIT"
+readme = "README.md"
+homepage = "https://trends.earth/"
+repository = "https://github.com/ConservationInternational/trends.earth-CLI"
+documentation = "https://trends.earth/docs/"
+keywords = ["earth-observation", "geospatial", "land-degradation", "remote-sensing", "cli"]
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Environment :: Console",
+    "Intended Audience :: Science/Research",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Scientific/Engineering :: GIS",
+    "Topic :: Scientific/Engineering :: Image Processing",
+    "Topic :: Utilities",
+]
+packages = [{include = "tecli"}]
+include = [
+    "tecli/run/Dockerfile",
+    "tecli/skeleton/requirements.txt",
+    "tecli/skeleton/src/__init__.py",
+    "tecli/skeleton/src/main.py",
+]
+
+[tool.poetry.dependencies]
+python = "^3.9"
+fire = "^0.7.0"
+PyYAML = "^6.0.1"
+requests = "^2.32.3"
+termcolor = "^2.4.0"
+python-dateutil = "^2.9.0"
+pytz = "*"
+
+[tool.poetry.group.dev.dependencies]
+ruff = "^0.5.5"
+pre-commit = "^3.7.0"
+pytest = "^8.0.0"
+pytest-cov = "^5.0.0"
+mypy = "^1.10.0"
+types-PyYAML = "^6.0.12"
+types-requests = "^2.32.0"
+types-python-dateutil = "^2.9.0"
+
+[tool.poetry.scripts]
+trends = "tecli:main"
+
+[tool.ruff]
+line-length = 100
+target-version = "py38"
+
+[tool.ruff.lint]
+select = [
+    "E",  # pycodestyle errors
+    "W",  # pycodestyle warnings
+    "F",  # pyflakes
+    "I",  # isort
+    "B",  # flake8-bugbear
+    "C4", # flake8-comprehensions
+    "UP", # pyupgrade
+]
+ignore = [
+    "E501",  # line too long, handled by black
+    "B008",  # do not perform function calls in argument defaults
+    "C901",  # too complex
+]
+
+[tool.ruff.lint.per-file-ignores]
+"__init__.py" = ["F401"]
+
+[tool.ruff.lint.isort]
+known-first-party = ["tecli"]
+
+[tool.mypy]
+python_version = "3.8"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true
+disallow_incomplete_defs = true
+check_untyped_defs = true
+disallow_untyped_decorators = true
+no_implicit_optional = true
+warn_redundant_casts = true
+warn_unused_ignores = true
+warn_no_return = true
+warn_unreachable = true
+
+[[tool.mypy.overrides]]
+module = [
+    "fire",
+    "termcolor",
+]
+ignore_missing_imports = true
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py", "*_test.py"]
+addopts = [
+    "--cov=tecli",
+    "--cov-report=term-missing",
+    "--cov-report=html",
+    "--cov-report=xml",
+]
+
+[tool.coverage.run]
+source = ["tecli"]
+omit = [
+    "*/tests/*",
+    "*/test_*",
+]
+
+[tool.coverage.report]
+exclude_lines = [
+    "pragma: no cover",
+    "def __repr__",
+    "if self.debug:",
+    "if settings.DEBUG",
+    "raise AssertionError",
+    "raise NotImplementedError",
+    "if 0:",
+    "if __name__ == .__main__.:",
+    "class .*\\bProtocol\\):",
+    "@(abc\\.)?abstractmethod",
+]

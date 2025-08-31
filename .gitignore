@@ -90,3 +90,22 @@ ENV/
 
 # IDE
 .idea
+
+# Configuration files
+.tecli.yml
+
+# Poetry
+poetry.lock
+
+# Coverage reports
+htmlcov/
+.coverage
+.coverage.*
+coverage.xml
+*.cover
+.pytest_cache/
+
+# mypy
+.mypy_cache/
+.dmypy.json
+dmypy.json

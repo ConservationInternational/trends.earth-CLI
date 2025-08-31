@@ -4,11 +4,12 @@ repos:
     hooks:
       - id: check-yaml
       - id: check-added-large-files
-      # - id: pretty-format-json
-      #   args: ["--autofix", "--no-sort-keys"]
+      - id: check-toml
+      - id: end-of-file-fixer
+      - id: trailing-whitespace
   - repo: https://github.com/astral-sh/ruff-pre-commit
     rev: v0.5.5
     hooks:
       - id: ruff
-        args: ["check", "--select", "I", "--fix"]
+        args: ["check", "--fix"]
       - id: ruff-format

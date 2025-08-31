@@ -1,13 +1,8 @@
 """Create command"""
 
-from __future__ import absolute_import
-from __future__ import division
-from __future__ import print_function
-
-
-import os
 import json
 import logging
+import os
 from shutil import copytree
 
 
@@ -19,9 +14,9 @@ def is_valid(name):
 def create_config_file(name):
     """Create a JSON configuration file"""
     config = {}
-    config['name'] = name
-    to_dir = os.getcwd() + '/' + name
-    with open(os.path.join(to_dir, 'configuration.json'), 'w') as config_file:
+    config["name"] = name
+    to_dir = os.getcwd() + "/" + name
+    with open(os.path.join(to_dir, "configuration.json"), "w") as config_file:
         json.dump(config, config_file)
 
 
@@ -32,8 +27,8 @@ def run():
         name = input("Please enter the project name: ")
 
     try:
-        to_dir = os.getcwd() + '/' + name
-        from_dir = os.path.dirname(os.path.realpath(__file__)) + '/skeleton'
+        to_dir = os.getcwd() + "/" + name
+        from_dir = os.path.dirname(os.path.realpath(__file__)) + "/skeleton"
 
         copytree(from_dir, to_dir)
         create_config_file(name)

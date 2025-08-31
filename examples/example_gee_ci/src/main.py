@@ -3,8 +3,6 @@ Code for calculating annual integrated NDVI.
 """
 # Copyright 2017 Conservation International
 
-from __future__ import absolute_import, division, print_function
-
 import json
 import random
 from time import sleep
@@ -119,15 +117,11 @@ def ndvi_annual_integral(year_start, year_end, geojson, EXECUTION_ID, logger):
         for k in range(year_start, year_end):
             ndvi_img = (
                 ndvi_coll.select("NDVI")
-                .filterDate("{}-01-01".format(k), "{}-12-31".format(k))
+                .filterDate(f"{k}-01-01", f"{k}-12-31")
                 .reduce(ee.Reducer.mean())
                 .multiply(0.0001)
             )
-            img = (
-                ndvi_img.addBands(ee.Image(k).float())
-                .rename(["ndvi", "year"])
-                .set({"year": k})
-            )
+            img = ndvi_img.addBands(ee.Image(k).float()).rename(["ndvi", "year"]).set({"year": k})
             img_coll = img_coll.add(img)
         return ee.ImageCollection(img_coll)
 
