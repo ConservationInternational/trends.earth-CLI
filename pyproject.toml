@@ -62,6 +62,7 @@ mypy = "^1.10.0"
 types-PyYAML = "^6.0.12"
 types-requests = "^2.32.0"
 types-python-dateutil = "^2.9.0"
+types-pytz = "*"
 
 [tool.poetry.scripts]
 trends = "tecli:main"
@@ -93,7 +94,7 @@ ignore = [
 known-first-party = ["tecli"]
 
 [tool.mypy]
-python_version = "3.8"
+python_version = "3.9"
 warn_return_any = true
 warn_unused_configs = true
 disallow_untyped_defs = true
