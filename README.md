@@ -2,7 +2,7 @@
 
 [![CI](https://github.com/ConservationInternational/trends.earth-CLI/actions/workflows/ci.yaml/badge.svg)](https://github.com/ConservationInternational/trends.earth-CLI/actions/workflows/ci.yaml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Python 3.8+](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/)
+[![Python 3.10+](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/downloads/)
 
 The official command-line interface for the trends.earth platform, enabling local development, testing, and deployment of custom geospatial analysis scripts.
 
@@ -80,7 +80,7 @@ trends publish
 
 ## 📋 Requirements
 
-- **Python 3.8+** - [Download Python](https://www.python.org/downloads/)
+- **Python 3.10+** - [Download Python](https://www.python.org/downloads/)
 - **Poetry** (recommended) - [Install Poetry](https://python-poetry.org/docs/#installation)
 - **Git** - [Install Git](https://git-scm.com/downloads)
 - **Docker** (for local script execution) - [Install Docker](https://docs.docker.com/get-docker/)

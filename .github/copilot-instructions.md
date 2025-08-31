@@ -15,7 +15,7 @@ The trends.earth CLI is a command-line interface for the trends.earth platform, 
 ### Python Code Standards
 - Follow PEP 8 style guidelines
 - Use type hints for all functions and methods (project is transitioning to full type coverage)
-- Maintain compatibility with Python 3.9+
+- Maintain compatibility with Python 3.10+
 - Use descriptive variable and function names
 - Add docstrings for all public functions and classes
 
