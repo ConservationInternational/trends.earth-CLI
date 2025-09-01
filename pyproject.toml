@@ -27,7 +27,6 @@ classifiers = [
     "License :: OSI Approved :: MIT License",
     "Operating System :: OS Independent",
     "Programming Language :: Python :: 3",
-    "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
@@ -45,7 +44,7 @@ include = [
 ]
 
 [tool.poetry.dependencies]
-python = "^3.9"
+python = "^3.10"
 fire = "^0.7.0"
 PyYAML = "^6.0.1"
 requests = "^2.32.3"
@@ -62,13 +61,14 @@ mypy = "^1.10.0"
 types-PyYAML = "^6.0.12"
 types-requests = "^2.32.0"
 types-python-dateutil = "^2.9.0"
+types-pytz = "*"
 
 [tool.poetry.scripts]
 trends = "tecli:main"
 
 [tool.ruff]
 line-length = 100
-target-version = "py38"
+target-version = "py310"
 
 [tool.ruff.lint]
 select = [
@@ -93,7 +93,7 @@ ignore = [
 known-first-party = ["tecli"]
 
 [tool.mypy]
-python_version = "3.8"
+python_version = "3.10"
 warn_return_any = true
 warn_unused_configs = true
 disallow_untyped_defs = true

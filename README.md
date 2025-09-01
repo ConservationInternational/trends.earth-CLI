@@ -2,7 +2,7 @@
 
 [![CI](https://github.com/ConservationInternational/trends.earth-CLI/actions/workflows/ci.yaml/badge.svg)](https://github.com/ConservationInternational/trends.earth-CLI/actions/workflows/ci.yaml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Python 3.8+](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/)
+[![Python 3.10+](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/downloads/)
 
 The official command-line interface for the trends.earth platform, enabling local development, testing, and deployment of custom geospatial analysis scripts.
 
@@ -80,7 +80,7 @@ trends publish
 
 ## 📋 Requirements
 
-- **Python 3.8+** - [Download Python](https://www.python.org/downloads/)
+- **Python 3.10+** - [Download Python](https://www.python.org/downloads/)
 - **Poetry** (recommended) - [Install Poetry](https://python-poetry.org/docs/#installation)
 - **Git** - [Install Git](https://git-scm.com/downloads)
 - **Docker** (for local script execution) - [Install Docker](https://docs.docker.com/get-docker/)
@@ -184,6 +184,8 @@ See [Configuration](#configuration) section for details.
 
 ## 🧪 Testing & Development
 
+> **⚠️ Prerequisites**: Before running tests or development tasks, complete the setup steps in [GitHub Copilot Setup Steps](.github/copilot-setup-steps.md) to ensure all dependencies are properly installed.
+
 ### Running Tests
 
 ```bash
@@ -214,6 +216,8 @@ poetry run pre-commit run --all-files
 ### Development Workflow
 
 1. **Set up development environment**
+   
+   Follow the complete setup guide in [GitHub Copilot Setup Steps](.github/copilot-setup-steps.md), or run:
    ```bash
    poetry install
    poetry run pre-commit install
@@ -233,6 +237,8 @@ poetry run pre-commit run --all-files
    ```bash
    poetry build
    ```
+
+For detailed development guidance and coding standards, see [GitHub Copilot Instructions](.github/copilot-instructions.md).
 
 ## 📖 Commands Reference
 
@@ -656,8 +662,8 @@ We welcome contributions! Please see our [Contributing Guidelines](CONTRIBUTING.
 
 1. Fork the repository
 2. Create a feature branch: `git checkout -b feature/amazing-feature`
-3. Set up development environment: `poetry install && poetry run pre-commit install`
-4. Make your changes
+3. **Set up development environment**: Follow [GitHub Copilot Setup Steps](.github/copilot-setup-steps.md) for complete setup instructions
+4. Make your changes following [GitHub Copilot Instructions](.github/copilot-instructions.md)
 5. Run tests and linting: `poetry run pytest && poetry run ruff check .`
 6. Submit a pull request
 
