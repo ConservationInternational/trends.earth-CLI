@@ -1,6 +1,6 @@
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v4.6.0
+    rev: v6.0.0
     hooks:
       - id: check-yaml
       - id: check-added-large-files
@@ -8,8 +8,8 @@ repos:
       - id: end-of-file-fixer
       - id: trailing-whitespace
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.5.5
+    rev: v0.13.0
     hooks:
-      - id: ruff
-        args: ["check", "--fix"]
+      - id: ruff-check
+        args: ["--fix"]
       - id: ruff-format
