@@ -5,10 +5,9 @@ import logging
 import os
 import tarfile
 
-import requests
 from termcolor import colored
 
-from tecli import config
+from tecli import auth, config
 
 
 def make_tarfile(name):
@@ -40,11 +39,6 @@ def write_configuration(data):
         json.dump(data, config_file)
 
 
-def read_jwt_token():
-    """Obtain jwt token of config user"""
-    return config.get("JWT")
-
-
 def sure_overwrite():
     sure = None
 
@@ -66,7 +60,6 @@ def publish(public=False, overwrite=False):
             return False
         tarfile = make_tarfile(configuration["name"])
         logging.debug(f"Doing request with file {tarfile}")
-        token = read_jwt_token()
 
         response = None
         if "id" in configuration:
@@ -78,17 +71,23 @@ def publish(public=False, overwrite=False):
             if not sure:
                 return False
 
-            response = requests.patch(
-                url=config.get("url_api") + "/api/v1/script/" + configuration["id"],
-                files={"file": open(tarfile, "rb")},
-                headers={"Authorization": "Bearer " + token},
-            )
+            # Use authenticated request for PATCH
+            with open(tarfile, "rb") as f:
+                response = auth.make_authenticated_request(
+                    "PATCH",
+                    config.get("url_api") + "/api/v1/script/" + configuration["id"],
+                    files={"file": f},
+                )
         else:
-            response = requests.post(
-                url=config.get("url_api") + "/api/v1/script",
-                files={"file": open(tarfile, "rb")},
-                headers={"Authorization": "Bearer " + token},
-            )
+            # Use authenticated request for POST
+            with open(tarfile, "rb") as f:
+                response = auth.make_authenticated_request(
+                    "POST", config.get("url_api") + "/api/v1/script", files={"file": f}
+                )
+
+        if response is None:
+            print(colored("Authentication failed. Please login.", "red"))
+            return False
 
         if response.status_code != 200:
             logging.error(response.json())
@@ -102,10 +101,14 @@ def publish(public=False, overwrite=False):
         configuration["id"] = data["data"]["id"]
         write_configuration(configuration)
         if public:
-            response = requests.post(
-                url=config.get("url_api") + "/api/v1/script/" + configuration["id"] + "/publish",
-                headers={"Authorization": "Bearer " + token},
+            response = auth.make_authenticated_request(
+                "POST", config.get("url_api") + "/api/v1/script/" + configuration["id"] + "/publish"
             )
+
+            if response is None:
+                print(colored("Authentication failed. Please login.", "red"))
+                return False
+
             if response.status_code != 200:
                 logging.error(response.json())
                 print(colored("Error making the script public.", "red"))

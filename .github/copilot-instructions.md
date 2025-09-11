@@ -26,11 +26,11 @@ from typing import Optional, Dict, Any
 def example_function(param: str, optional_param: Optional[int] = None) -> bool:
     """
     Example function with proper type hints and docstring.
-    
+
     Args:
         param: Required string parameter
         optional_param: Optional integer parameter
-        
+
     Returns:
         True if operation successful, False otherwise
     """
@@ -121,10 +121,10 @@ def test_command_success_case():
     """Test that command works correctly with valid input."""
     # Arrange
     test_input = "valid_input"
-    
+
     # Act
     result = commands.Commands.example_command(test_input)
-    
+
     # Assert
     assert result is True
 

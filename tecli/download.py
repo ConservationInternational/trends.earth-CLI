@@ -3,15 +3,9 @@
 import logging
 import tarfile
 
-import requests
 from termcolor import colored
 
-from tecli import config
-
-
-def read_jwt_token():
-    """Obtain logs token of config user"""
-    return config.get("JWT")
+from tecli import auth, config
 
 
 def run(script_id=None):
@@ -20,12 +14,14 @@ def run(script_id=None):
         logging.error("invalid script_id")
         return False
     try:
-        token = read_jwt_token()
-        response = requests.get(
-            url=config.get("url_api") + "/api/v1/script/" + script_id + "/download",
-            headers={"Authorization": "Bearer " + token},
-            stream=True,
+        response = auth.make_authenticated_request(
+            "GET", config.get("url_api") + "/api/v1/script/" + script_id + "/download", stream=True
         )
+
+        if response is None:
+            print(colored("Authentication failed. Please login.", "red"))
+            return False
+
         if response.status_code != 200:
             if response.status_code == 401:
                 print(colored("Do you need login", "red"))

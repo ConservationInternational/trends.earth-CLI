@@ -4,15 +4,9 @@ import json
 import logging
 import os
 
-import requests
 from termcolor import colored
 
-from tecli import config
-
-
-def read_jwt_token():
-    """Obtain jwt token of config user"""
-    return config.get("JWT")
+from tecli import auth, config
 
 
 def read_configuration():
@@ -32,11 +26,15 @@ def run():
             print("Status: NOT PUBLISHED")
 
         else:
-            token = read_jwt_token()
-            response = requests.get(
-                url=config.get("url_api") + "/api/v1/script/" + configuration["id"],
-                headers={"Authorization": "Bearer " + token},
+            # Use the new authenticated request function
+            response = auth.make_authenticated_request(
+                "GET", config.get("url_api") + "/api/v1/script/" + configuration["id"]
             )
+
+            if response is None:
+                print(colored("Authentication failed. Please login.", "red"))
+                return False
+
             if response.status_code != 200:
                 if response.status_code == 401:
                     print(colored("Do you need login", "red"))

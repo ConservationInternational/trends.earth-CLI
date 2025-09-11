@@ -5,7 +5,7 @@ from datetime import timedelta
 
 from termcolor import colored
 
-from tecli import clear, config, create, download, info, login, logs, publish, start
+from tecli import clear, config, create, download, info, login, logout, logs, publish, start
 
 
 class Commands:
@@ -56,6 +56,21 @@ class Commands:
                 print(colored("You are logged in", "green"))
             else:
                 print(colored("Error with the user", "red"))
+        except Exception as error:
+            logging.error(error)
+
+    @staticmethod
+    def logout(all_sessions=False):
+        """Log out from the API"""
+        try:
+            if all_sessions:
+                print("Logging out from all sessions")
+            else:
+                print("Logging out")
+            if logout.run(all_sessions):
+                pass  # logout.run() already prints success message
+            else:
+                print(colored("Error logging out", "red"))
         except Exception as error:
             logging.error(error)
 

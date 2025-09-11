@@ -1,6 +1,7 @@
 """Login command"""
 
 import re
+from datetime import datetime, timedelta
 from getpass import getpass
 
 import requests
@@ -41,6 +42,17 @@ def run():
 
     body = response.json()
 
+    # Store access token
     config.set("JWT", body["access_token"])
 
+    # Store refresh token if provided
+    if "refresh_token" in body:
+        config.set("refresh_token", body["refresh_token"])
+
+    # Store token expiration if provided
+    if "expires_in" in body:
+        expires_at = datetime.now() + timedelta(seconds=body["expires_in"])
+        config.set("token_expires_at", expires_at.isoformat())
+
+    print("Login successful!")
     return True

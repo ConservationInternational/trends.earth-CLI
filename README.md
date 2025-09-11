@@ -216,7 +216,7 @@ poetry run pre-commit run --all-files
 ### Development Workflow
 
 1. **Set up development environment**
-   
+
    Follow the complete setup guide in [GitHub Copilot Setup Steps](.github/copilot-setup-steps.md), or run:
    ```bash
    poetry install

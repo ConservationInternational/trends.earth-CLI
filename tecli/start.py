@@ -24,7 +24,7 @@ def query_to_dict(query):
 
 
 def read_gee_service_account():
-    """Obtain jwt token of config user"""
+    """Obtain Google Earth Engine service account JSON"""
     return config.get("EE_SERVICE_ACCOUNT_JSON")
 
 

@@ -8,15 +8,9 @@ from datetime import datetime, timedelta
 
 import dateutil.parser
 import pytz
-import requests
 from termcolor import colored
 
-from tecli import config
-
-
-def read_jwt_token():
-    """Obtain logs token of config user"""
-    return config.get("JWT")
+from tecli import auth, config
 
 
 def read_configuration():
@@ -31,14 +25,18 @@ def read_configuration():
 def get_logs(script, last_date):
     """Get logs from server"""
     logging.debug("Obtaining logs")
-    token = read_jwt_token()
     start_query = ""
     if last_date:
         start_query = "?start=" + last_date.isoformat()
-    response = requests.get(
-        url=config.get("url_api") + "/api/v1/script/" + script["id"] + "/log" + start_query,
-        headers={"Authorization": "Bearer " + token},
+
+    response = auth.make_authenticated_request(
+        "GET", config.get("url_api") + "/api/v1/script/" + script["id"] + "/log" + start_query
     )
+
+    if response is None:
+        print(colored("Authentication failed. Please login.", "red"))
+        return False, None
+
     if response.status_code != 200:
         if response.status_code == 401:
             print(colored("Do you need login", "red"))
@@ -86,11 +84,14 @@ def run(since=timedelta(hours=1)):
             return True
 
         else:
-            token = read_jwt_token()
-            response = requests.get(
-                url=config.get("url_api") + f"/api/v1/script/{configuration['id']}?include=logs",
-                headers={"Authorization": "Bearer " + token},
+            response = auth.make_authenticated_request(
+                "GET", config.get("url_api") + f"/api/v1/script/{configuration['id']}?include=logs"
             )
+
+            if response is None:
+                print(colored("Authentication failed. Please login.", "red"))
+                return False
+
             if response.status_code != 200:
                 if response.status_code == 401:
                     print(colored("Do you need login", "red"))
