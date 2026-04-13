@@ -52,10 +52,13 @@ class Commands:
         """Log in the API"""
         try:
             print("Logging the user in")
-            if login.run():
+            result = login.run()
+            if result is True:
                 print(colored("You are logged in", "green"))
+            elif isinstance(result, dict) and "error" in result:
+                print(colored(f"Login failed: {result['error']}", "red"))
             else:
-                print(colored("Error with the user", "red"))
+                print(colored("Login failed", "red"))
         except Exception as error:
             logging.error(error)
 

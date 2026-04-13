@@ -37,8 +37,12 @@ def run():
     )
 
     if response.status_code != 200:
-        print("Error login.")
-        return False
+        try:
+            error_body = response.json()
+            error_msg = error_body.get("message", response.text)
+        except Exception:
+            error_msg = response.text
+        return {"error": error_msg}
 
     body = response.json()
 
