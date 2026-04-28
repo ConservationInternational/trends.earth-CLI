@@ -1,5 +1,7 @@
 # trends.earth CLI
 
+[![Trends.Earth](https://s3.amazonaws.com/trends.earth/sharing/trends_earth_logo_bl_600width.png)](http://trends.earth)
+
 [![CI](https://github.com/ConservationInternational/trends.earth-CLI/actions/workflows/ci.yaml/badge.svg)](https://github.com/ConservationInternational/trends.earth-CLI/actions/workflows/ci.yaml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Python 3.10+](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/downloads/)
@@ -10,13 +12,7 @@ The official command-line interface for the trends.earth platform, enabling loca
 
 This project is part of the [trends.earth](https://trends.earth/) ecosystem, a platform for monitoring land change using Earth observation data. The CLI enables researchers and developers to create custom analysis scripts that can be deployed to the trends.earth cloud platform.
 
-### Related Components
-
-- 🌐 [trends.earth API](https://github.com/Vizzuality/trends.earth-API) - Backend API services
-- 🏗️ [trends.earth Environment](https://github.com/Vizzuality/trends.earth-Environment) - Core platform infrastructure
-- 🖥️ [trends.earth UI](https://github.com/Vizzuality/trends.earth-UI) - Web application interface
-
-## 🚀 Quick Start
+## Quick Start
 
 ### Installation
 
@@ -78,14 +74,14 @@ trends login
 trends publish
 ```
 
-## 📋 Requirements
+## Requirements
 
 - **Python 3.10+** - [Download Python](https://www.python.org/downloads/)
 - **Poetry** (recommended) - [Install Poetry](https://python-poetry.org/docs/#installation)
 - **Git** - [Install Git](https://git-scm.com/downloads)
 - **Docker** (for local script execution) - [Install Docker](https://docs.docker.com/get-docker/)
 
-## 🛠️ Development Setup
+## Development Setup
 
 ### Using Poetry (Recommended)
 
@@ -182,7 +178,7 @@ cp .tecli.yml.example ~/.tecli.yml
 
 See [Configuration](#configuration) section for details.
 
-## 🧪 Testing & Development
+## Testing & Development
 
 > **⚠️ Prerequisites**: Before running tests or development tasks, complete the setup steps in [GitHub Copilot Setup Steps](.github/copilot-setup-steps.md) to ensure all dependencies are properly installed.
 
@@ -240,7 +236,7 @@ poetry run pre-commit run --all-files
 
 For detailed development guidance and coding standards, see [GitHub Copilot Instructions](.github/copilot-instructions.md).
 
-## 📖 Commands Reference
+## Commands Reference
 
 ### Project Management
 
@@ -369,7 +365,7 @@ Remove temporary Docker images created during local development.
 trends clear
 ```
 
-## ⚙️ Configuration
+## Configuration
 
 The CLI stores configuration in `~/.tecli.yml`. Copy the example configuration:
 
@@ -411,7 +407,7 @@ export TECLI_EE_SERVICE_ACCOUNT="service-account@project.iam.gserviceaccount.com
 export TECLI_EE_PRIVATE_KEY="base64-encoded-key"
 ```
 
-## 📁 Project Structure
+## Project Structure
 
 When you create a new script with `trends create`, you'll get this structure:
 
@@ -475,11 +471,11 @@ def run(params, logger, gee_runner=None):
         return my_gee_analysis(param1, param2, logger)
 ```
 
-## 📚 Examples
+## Examples
 
 The repository includes several example scripts demonstrating different use cases:
 
-### 🔢 NumPy Example (`examples/example_numpy/`)
+### NumPy Example (`examples/example_numpy/`)
 Basic array operations and custom Python classes.
 
 ```bash
@@ -492,7 +488,7 @@ trends start
 - Custom class definitions
 - Basic logging
 
-### 🧠 TensorFlow Example (`examples/example_tensorflow/`)
+### TensorFlow Example (`examples/example_tensorflow/`)
 Machine learning model for MNIST digit recognition.
 
 ```bash
@@ -505,7 +501,7 @@ trends start
 - MNIST dataset processing
 - Model evaluation
 
-### 🌍 Google Earth Engine Examples
+### Google Earth Engine Examples
 
 #### Basic GEE (`examples/example_gee/`)
 Forest change analysis using Hansen Global Forest Change data.
@@ -526,7 +522,7 @@ cd examples/example_gee_ci
 trends start --queryParams "year_start=2003&year_end=2015"
 ```
 
-## 🐳 Docker Environment
+## Docker Environment
 
 Scripts run in a containerized environment based on the `trends.earth-environment` Docker image. You can customize the environment in your `configuration.json`:
 
@@ -543,7 +539,7 @@ Scripts run in a containerized environment based on the `trends.earth-environmen
 - **Local**: Docker container with mounted source code
 - **Production**: Code uploaded and executed in secure cloud environment
 
-## 🔧 Development Workflow
+## Development Workflow
 
 1. **Create Project**
    ```bash
@@ -582,7 +578,7 @@ Scripts run in a containerized environment based on the `trends.earth-environmen
    trends logs --since=24
    ```
 
-## 🚨 Troubleshooting
+## Troubleshooting
 
 ### Common Issues
 
@@ -654,7 +650,7 @@ trends config show url_api
 trends login
 ```
 
-## 🤝 Contributing
+## Contributing
 
 We welcome contributions! Please see our [Contributing Guidelines](CONTRIBUTING.md) for details.
 
@@ -683,18 +679,30 @@ poetry run mypy tecli/         # Type checking
 poetry run pytest             # Tests
 ```
 
-## 📄 License
+## Related Projects
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+`Trends.Earth` is built from a set of interconnected repositories:
 
-## 🏢 About Conservation International
+- [trends.earth](https://github.com/ConservationInternational/trends.earth) — QGIS plugin for land degradation monitoring
+- [trends.earth-schemas](https://github.com/ConservationInternational/trends.earth-schemas) — Data schemas for analysis results
+- [trends.earth-algorithms](https://github.com/ConservationInternational/trends.earth-algorithms) — Core analysis algorithms
+- [trends.earth-API](https://github.com/ConservationInternational/trends.earth-API) — Backend REST API
+- [trends.earth-Environment](https://github.com/ConservationInternational/trends.earth-Environment) — Job execution environment for running scripts
+- [trends.earth-api-ui](https://github.com/ConservationInternational/trends.earth-api-ui) — Web UI for API management
 
-This project is maintained by [Conservation International](https://www.conservation.org/), a nonprofit environmental organization working to protect nature for the benefit of humanity.
+## License
 
-## 📞 Support
+MIT License — see [LICENSE](LICENSE).
 
-- 📖 [Documentation](https://trends.earth/docs/)
-- 🐛 [Issues](https://github.com/ConservationInternational/trends.earth-CLI/issues)
-- 💬 [Discussions](https://github.com/ConservationInternational/trends.earth-CLI/discussions)
-- 📧 Email: [trends.earth@conservation.org](mailto:trends.earth@conservation.org)
+
+## Support
+
+- [Documentation](https://trends.earth/docs/)
+- [Issues](https://github.com/ConservationInternational/trends.earth-CLI/issues)
+- [Discussions](https://github.com/ConservationInternational/trends.earth-CLI/discussions)
+- Email: [trends.earth@conservation.org](mailto:trends.earth@conservation.org)
 ```
+
+---
+
+[![Part of Trends.Earth](https://s3.amazonaws.com/trends.earth/sharing/trends_earth_logo_bl_600width.png)](http://trends.earth)
