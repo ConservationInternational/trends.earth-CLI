@@ -180,8 +180,6 @@ See [Configuration](#configuration) section for details.
 
 ## Testing & Development
 
-> **⚠️ Prerequisites**: Before running tests or development tasks, complete the setup steps in [GitHub Copilot Setup Steps](.github/copilot-setup-steps.md) to ensure all dependencies are properly installed.
-
 ### Running Tests
 
 ```bash
