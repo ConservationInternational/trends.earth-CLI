@@ -700,7 +700,3 @@ MIT License — see [LICENSE](LICENSE).
 - [Discussions](https://github.com/ConservationInternational/trends.earth-CLI/discussions)
 - Email: [trends.earth@conservation.org](mailto:trends.earth@conservation.org)
 ```
-
----
-
-[![Part of Trends.Earth](https://s3.amazonaws.com/trends.earth/sharing/trends_earth_logo_bl_600width.png)](http://trends.earth)
