@@ -94,8 +94,8 @@ ENV/
 # Configuration files
 .tecli.yml
 
-# Poetry
-poetry.lock
+# uv
+.venv/
 
 # Coverage reports
 htmlcov/

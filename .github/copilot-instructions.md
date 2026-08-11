@@ -8,7 +8,21 @@ The trends.earth CLI is a command-line interface for the trends.earth platform, 
 
 ## Development Environment
 
-**IMPORTANT**: Before starting any development work, ensure you've completed the setup steps in [copilot-setup-steps.md](./copilot-setup-steps.md).
+### Installation and Setup
+Install uv (if not already installed):
+```bash
+# On macOS, Linux, Windows (WSL)
+curl -LsSf https://astral.sh/uv/install.sh | sh
+
+# Or use pip
+pip install uv
+```
+
+Then set up the project:
+```bash
+# Sync dependencies (installs both main and dev dependencies)
+uv sync
+```
 
 ## Code Style and Standards
 
@@ -48,17 +62,17 @@ The project uses several tools for maintaining code quality:
 Always run these before committing:
 ```bash
 # Lint and format code
-ruff check .
-ruff format .
+uv run ruff check .
+uv run ruff format .
 
 # Type checking
-mypy tecli/
+uv run mypy tecli/
 
 # Run tests
-pytest
+uv run pytest
 
 # Run all quality checks
-pre-commit run --all-files
+uv run pre-commit run --all-files
 ```
 
 ## Project Structure
@@ -137,16 +151,16 @@ def test_command_error_case():
 ### Running Tests
 ```bash
 # Run all tests
-pytest
+uv run pytest
 
 # Run specific test file
-pytest tests/test_commands.py
+uv run pytest tests/test_commands.py
 
 # Run with coverage
-pytest --cov=tecli
+uv run pytest --cov=tecli
 
 # Run specific test
-pytest tests/test_commands.py::test_specific_function
+uv run pytest tests/test_commands.py::test_specific_function
 ```
 
 ## Docker Integration
@@ -180,9 +194,10 @@ The CLI uses Docker for script execution:
 5. Run quality checks
 
 ### Adding Dependencies
-1. Add to `pyproject.toml` under `[tool.poetry.dependencies]`
-2. Run `poetry install` to update lock file
-3. Add type stubs to `[tool.poetry.group.dev.dependencies]` if needed
+1. Add to `pyproject.toml` under `[project.dependencies]` for production dependencies
+2. Add to `pyproject.toml` under `[project.optional-dependencies]` -> `dev` for development dependencies
+3. Run `uv sync` to update lock file and install dependencies
+4. Type stubs should be added to the `dev` optional dependency group
 
 ## Error Handling
 
@@ -280,7 +295,7 @@ def api_call(endpoint: str, data: Optional[Dict[str, Any]] = None) -> Optional[D
 
 ## Additional Resources
 
-- [Poetry Documentation](https://python-poetry.org/docs/)
+- [uv Documentation](https://docs.astral.sh/uv/)
 - [Ruff Documentation](https://docs.astral.sh/ruff/)
 - [pytest Documentation](https://docs.pytest.org/)
 - [mypy Documentation](https://mypy.readthedocs.io/)

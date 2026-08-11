@@ -16,17 +16,16 @@ This project is part of the [trends.earth](https://trends.earth/) ecosystem, a p
 
 ### Installation
 
-**Option 1: Using Poetry (Recommended)**
+**Using uv (Recommended)**
 ```bash
 git clone https://github.com/ConservationInternational/trends.earth-CLI
 cd trends.earth-CLI
-poetry install
-poetry shell
+uv sync
 ```
 
-> **Note**: After `poetry install`, the `trends` command should be available in the virtual environment.
+> **Note**: After `uv sync`, the `trends` command should be available in your virtual environment.
 
-**Option 2: Using pip with source**
+**Alternative: Using pip with source**
 ```bash
 git clone https://github.com/ConservationInternational/trends.earth-CLI
 cd trends.earth-CLI
@@ -37,16 +36,17 @@ pip install -e .
 
 After installation, use the `trends` command:
 
-**If using Poetry:**
+**Using uv (Recommended):**
 ```bash
-# Method 1: Activate the shell first (recommended)
-poetry shell
+# Use uv run to execute commands
+uv run trends --help
+uv run trends create
+
+# Or activate the virtual environment first
+source .venv/bin/activate  # On Unix/macOS
+# or .venv\Scripts\activate on Windows
 trends --help
 trends create
-
-# Method 2: Use poetry run for each command
-poetry run trends --help
-poetry run trends create
 ```
 
 **If using pip installation:**
@@ -77,20 +77,20 @@ trends publish
 ## Requirements
 
 - **Python 3.10+** - [Download Python](https://www.python.org/downloads/)
-- **Poetry** (recommended) - [Install Poetry](https://python-poetry.org/docs/#installation)
+- **uv** (recommended) - [Install uv](https://docs.astral.sh/uv/getting-started/installation/)
 - **Git** - [Install Git](https://git-scm.com/downloads)
 - **Docker** (for local script execution) - [Install Docker](https://docs.docker.com/get-docker/)
 
 ## Development Setup
 
-### Using Poetry (Recommended)
+### Using uv (Recommended)
 
-1. **Install Poetry**
+1. **Install uv**
    ```bash
-   # Install Poetry (if not already installed)
-   curl -sSL https://install.python-poetry.org | python3 -
-   # Or on Windows:
-   # (Invoke-WebRequest -Uri https://install.python-poetry.org -UseBasicParsing).Content | py -
+   # Install uv (if not already installed)
+   curl -LsSf https://astral.sh/uv/install.sh | sh
+   # Or use pip:
+   # pip install uv
    ```
 
 2. **Clone the repository**
@@ -103,36 +103,33 @@ trends publish
    ```bash
    # Install all dependencies (including dev dependencies)
    # This also installs the project itself in development mode
-   poetry install
-
-   # Activate the virtual environment
-   poetry shell
+   uv sync --all-extras
    ```
 
 4. **Verify installation**
    ```bash
-   # Test the trends command (after poetry shell)
+   # Test the trends command using uv run
+   uv run trends --help
+
+   # Or activate the virtual environment first
+   source .venv/bin/activate  # On Unix/macOS
+   # or .venv\Scripts\activate on Windows
    trends --help
-
-   # Or using poetry run (without shell activation)
-   poetry run trends --help
-
-   # Check that the package is installed
-   poetry show trends-earth-cli
    ```
 
 5. **Run CLI commands**
    ```bash
-   # Using poetry run
-   poetry run trends create
+   # Using uv run
+   uv run trends create
 
-   # Or after activating the shell
+   # Or after activating the virtual environment
+   source .venv/bin/activate
    trends create
    ```
 
 ### From Source (Alternative)
 
-If you prefer not to use Poetry:
+If you prefer not to use uv:
 
 1. **Clone the repository**
    ```bash
@@ -178,33 +175,54 @@ cp .tecli.yml.example ~/.tecli.yml
 
 See [Configuration](#configuration) section for details.
 
+### Managing Dependencies with uv
+
+When developing the CLI, you can add new dependencies using `uv add`:
+
+```bash
+# Add a production dependency
+uv add package-name
+
+# Add a development-only dependency
+uv add --dev package-name
+
+# Add a local package in editable mode (useful for testing with other trends.earth packages)
+uv add --editable /path/to/trends.earth-algorithms
+uv add --dev --editable /path/to/trends.earth-schemas
+
+# Update all dependencies
+uv sync --all-extras
+```
+
+The `--editable` flag is particularly useful when working with other trends.earth packages (like trends.earth-algorithms or trends.earth-schemas) that you're developing simultaneously. This allows you to test changes in those packages immediately without reinstalling.
+
 ## Testing & Development
 
 ### Running Tests
 
 ```bash
 # Run all tests
-poetry run pytest
+uv run pytest
 
 # Run tests with coverage
-poetry run pytest --cov=tecli
+uv run pytest --cov=tecli
 
 # Run specific test file
-poetry run pytest tests/test_commands.py
+uv run pytest tests/test_commands.py
 ```
 
 ### Code Quality
 
 ```bash
 # Run linting and formatting
-poetry run ruff check .
-poetry run ruff format .
+uv run ruff check .
+uv run ruff format .
 
 # Run type checking
-poetry run mypy tecli/
+uv run mypy tecli/
 
 # Run all quality checks
-poetry run pre-commit run --all-files
+uv run pre-commit run --all-files
 ```
 
 ### Development Workflow
@@ -213,23 +231,23 @@ poetry run pre-commit run --all-files
 
    Follow the complete setup guide in [GitHub Copilot Setup Steps](.github/copilot-setup-steps.md), or run:
    ```bash
-   poetry install
-   poetry run pre-commit install
+   uv sync --all-extras
+   uv run pre-commit install
    ```
 
 2. **Make changes and test**
    ```bash
    # Run tests
-   poetry run pytest
+   uv run pytest
 
    # Check code quality
-   poetry run ruff check .
-   poetry run mypy tecli/
+   uv run ruff check .
+   uv run mypy tecli/
    ```
 
 3. **Build package locally**
    ```bash
-   poetry build
+   uv build
    ```
 
 For detailed development guidance and coding standards, see [GitHub Copilot Instructions](.github/copilot-instructions.md).
@@ -586,17 +604,18 @@ Scripts run in a containerized environment based on the `trends.earth-environmen
 
 # 1. Restart your terminal/command prompt
 
-# 2. If using Poetry, make sure you're in the poetry shell
-poetry shell
+# 2. If using uv, make sure your virtual environment is activated
+source .venv/bin/activate  # On Unix/macOS
+# or on Windows:
+.venv\Scripts\activate
 trends --help
 
-# 3. If still not working, try reinstalling with Poetry
-poetry install --sync
-poetry shell
+# 3. If still not working, try reinstalling with uv
+uv sync --all-extras
 
-# 4. Use poetry run as an alternative
-poetry run trends --help
-poetry run trends create
+# 4. Use uv run as an alternative
+uv run trends --help
+uv run trends create
 
 # 5. Use the module directly as fallback
 python -m tecli --help
@@ -606,7 +625,7 @@ python -m tecli create
 # If using virtual environment, make sure it's activated
 
 # 7. Check that the installation completed successfully
-poetry show trends-earth-cli  # Should show the package if installed correctly
+uv pip list | grep trends-earth-cli  # Should show the package if installed correctly
 ```
 
 **Docker not found**
@@ -658,7 +677,7 @@ We welcome contributions! Please see our [Contributing Guidelines](CONTRIBUTING.
 2. Create a feature branch: `git checkout -b feature/amazing-feature`
 3. **Set up development environment**: Follow [GitHub Copilot Setup Steps](.github/copilot-setup-steps.md) for complete setup instructions
 4. Make your changes following [GitHub Copilot Instructions](.github/copilot-instructions.md)
-5. Run tests and linting: `poetry run pytest && poetry run ruff check .`
+5. Run tests and linting: `uv run pytest && uv run ruff check .`
 6. Submit a pull request
 
 ### Code Style
@@ -667,14 +686,14 @@ This project uses [Ruff](https://github.com/astral-sh/ruff) for code formatting 
 
 ```bash
 # Install development dependencies and pre-commit hooks
-poetry install
-poetry run pre-commit install
+uv sync --all-extras
+uv run pre-commit install
 
 # Run quality checks manually
-poetry run ruff check .        # Linting
-poetry run ruff format .       # Formatting
-poetry run mypy tecli/         # Type checking
-poetry run pytest             # Tests
+uv run ruff check .        # Linting
+uv run ruff format .       # Formatting
+uv run mypy tecli/         # Type checking
+uv run pytest             # Tests
 ```
 
 ## Related Projects
