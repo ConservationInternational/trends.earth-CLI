@@ -13,43 +13,50 @@ settings = {"url_api": "https://api.trends.earth"}
 
 def set(var_name, value):
     global settings
-    with open(config_path, "r+") as infile:
-        settings.update(yaml.load(infile, Loader=yaml.FullLoader))
-        with open(config_path, "w+") as outfile:
-            if settings is None:
-                settings = {}
-            settings[var_name] = value
-            yaml.dump(settings, outfile, default_flow_style=False)
+    if os.path.exists(config_path):
+        with open(config_path, "r") as infile:
+            file_settings = yaml.load(infile, Loader=yaml.FullLoader)
+            if file_settings:
+                settings.update(file_settings)
+    settings[var_name] = value
+    with open(config_path, "w") as outfile:
+        yaml.dump(settings, outfile, default_flow_style=False)
     return True
 
 
 def show(var_name, value):
     global settings
-    with open(config_path, "r+") as infile:
-        settings.update(yaml.load(infile, Loader=yaml.FullLoader))
-        if settings is not None:
-            print("Value: " + str(settings[var_name]))
+    if os.path.exists(config_path):
+        with open(config_path, "r") as infile:
+            file_settings = yaml.load(infile, Loader=yaml.FullLoader)
+            if file_settings:
+                settings.update(file_settings)
+    if settings is not None:
+        print("Value: " + str(settings.get(var_name, "")))
     return True
 
 
 def get(var_name):
     global settings
-    with open(config_path, "r+") as infile:
-        settings.update(yaml.load(infile, Loader=yaml.FullLoader))
-        if settings is not None and var_name in settings:
-            return settings[var_name]
-        return ""
-    return True
+    if not os.path.exists(config_path):
+        return settings.get(var_name, "")
+    with open(config_path, "r") as infile:
+        file_settings = yaml.load(infile, Loader=yaml.FullLoader)
+        if file_settings:
+            settings.update(file_settings)
+    return settings.get(var_name, "")
 
 
 def unset(var_name, value):
     global settings
-    with open(config_path, "r+") as infile:
-        settings.update(yaml.load(infile, Loader=yaml.FullLoader))
-        with open(config_path, "w+") as outfile:
-            if settings is not None:
-                settings.pop(var_name, None)
-                yaml.dump(settings, outfile, default_flow_style=False)
+    if os.path.exists(config_path):
+        with open(config_path, "r") as infile:
+            file_settings = yaml.load(infile, Loader=yaml.FullLoader)
+            if file_settings:
+                settings.update(file_settings)
+    settings.pop(var_name, None)
+    with open(config_path, "w") as outfile:
+        yaml.dump(settings, outfile, default_flow_style=False)
     return True
 
 

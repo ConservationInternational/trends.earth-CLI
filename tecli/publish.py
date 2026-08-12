@@ -114,8 +114,9 @@ def publish(public=False, overwrite=False):
                 print(colored("Error making the script public.", "red"))
                 return False
         return True
-    except OSError:
-        print(colored("Execute this command in a GEF project", "red"))
+    except FileNotFoundError as e:
+        # configuration.json, requirements.txt, or src/ is missing
+        print(colored(f"Execute this command in a GEF project ({e.filename} not found)", "red"))
         return False
     finally:
         if tarfile:
