@@ -29,7 +29,7 @@ uv sync
 ### Python Code Standards
 - Follow PEP 8 style guidelines
 - Use type hints for all functions and methods (project is transitioning to full type coverage)
-- Maintain compatibility with Python 3.10+
+- Maintain compatibility with Python 3.12+
 - Use descriptive variable and function names
 - Add docstrings for all public functions and classes
 
