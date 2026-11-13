@@ -78,16 +78,18 @@ class Commands:
             logging.error(error)
 
     @staticmethod
-    def publish(public=False, overwrite=False):
-        """Publish a script"""
+    def publish(public: bool = False, overwrite: bool = False) -> None:
+        """Publish a script, exiting with status 1 on failure."""
         try:
             print("Publishing the script")
             if publish.run(public, overwrite):
                 print(colored("Script published successfully", "green"))
             else:
                 print(colored("Error publishing the script", "red"))
+                raise SystemExit(1)
         except Exception as error:
             logging.error(error)
+            raise SystemExit(1) from error
 
     @staticmethod
     def download(script_id=None):

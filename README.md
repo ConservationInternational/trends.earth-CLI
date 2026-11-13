@@ -306,6 +306,9 @@ trends publish --overwrite=True  # Overwrite existing script
 - `public` - Make script publicly accessible (default: False)
 - `overwrite` - Overwrite existing script without confirmation (default: False)
 
+Publishing exits with status 0 on success and status 1 on failure, including
+authentication errors, rejected uploads, and failures to make a script public.
+
 ### Monitoring & Information
 
 #### `trends info`
